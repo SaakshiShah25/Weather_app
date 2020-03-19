@@ -1,0 +1,85 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link href="{% static '/css/material-kit.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+   
+
+
+    <title>Home</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card" style="width:100%;background-color:#79ADDC">
+        <div class="card-body" style="color:white;font-weight:bold;font-size:30px;text-align:center;">
+         Know the current weather
+        </div>
+      </div>
+     
+      
+      <form method="POST" >
+        {% csrf_token %}
+        <div class="field has-addons my-3" style="align-items:center" >
+            <div class="control is-expanded">
+                
+                {{form.name}}
+                <button class="button is-info" type="submit">
+                    Add City
+                </button>
+            </div>
+        </div>
+        {% if message %}
+        <div class="alert {{message_class}}">{{message}}</div>
+        {% endif %}
+      </form>
+      
+     
+      
+     
+      
+        {%for data in weather_data %}
+        <div class="row">
+          <div class="card my-2" style="width: 50rem; height:7rem;padding-left:70px;margin-left:150px;">
+            <div class="columns">
+              <div class="column is-offset-4 is-4">
+                  <div class="box">
+                      <article class="media">
+                          <div class="media-left">
+                            <figure class="image" style="padding-bottom:30px">
+                            <img class="card-img-top" src="http://openweathermap.org/img/w/{{data.img}}.png" alt="Card image cap" style="height:120px; width:100px;">
+                            </figure>
+                          </div>
+                        <div class="card-body" style="padding-top:25px;">
+                          <p style="text-align:center;">
+                            <span class="title" style="font-weight:bold; font-size:22px">{{data.city}}</span>
+                            <br>
+                            <span class="subtitle" style="font-size:16px;">{{data.temp}}° C</span>
+                            <br><span class="subtitle" style="font-size:16px;">{{data.desc}}</span>
+                          </p>
+                        </div>
+                        <div class="media-right">
+                          <a href="{% url 'delete' data.city %}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </a>
+                        </div>
+                      </article>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       {% endfor %}
+     
+    </div>
+  </body>
